@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>المافيا</title>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0c090b;--smoke:#1c1519;--smoke2:#2a2025;--blood:#a3202f;--blood2:#d13446;--brass:#c9a45c;--paper:#ece3d3;--mute:#9a8f90;--ok:#3fae6a;--bad:#d13446;
+--disp:'Reem Kufi','Tajawal',Tahoma,sans-serif;--body:'Tajawal',Tahoma,sans-serif}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{background:radial-gradient(ellipse at 50% -10%,#3a1219 0,var(--ink) 60%) fixed;color:var(--paper);font:400 16px/1.7 var(--body);padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+body::before,body::after{content:"";position:fixed;inset:-20%;pointer-events:none;background:radial-gradient(40% 30% at 30% 60%,rgba(201,164,92,.07),transparent),radial-gradient(35% 25% at 75% 30%,rgba(163,32,47,.09),transparent);animation:fog 28s ease-in-out infinite alternate}
+body::after{animation-duration:41s;animation-direction:alternate-reverse}
+@keyframes fog{to{transform:translate(8%,5%) scale(1.15)}}
+#app{position:relative;max-width:560px;margin:0 auto;padding:20px 16px 40px}
+h1{font:700 3rem/1 var(--disp);text-align:center;letter-spacing:.02em;color:var(--paper);text-shadow:0 0 30px rgba(163,32,47,.6)}
+h2{font:700 1.5rem/1.3 var(--disp);color:var(--brass);margin-bottom:8px}
+.sub{color:var(--mute);text-align:center;margin:6px 0 22px}
+.card{background:linear-gradient(180deg,var(--smoke2),var(--smoke));border:1px solid #3a2e34;border-radius:14px;padding:18px;margin:14px 0;animation:in .45s ease both}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+input,select{width:100%;background:#120d10;border:1px solid #43353c;color:var(--paper);border-radius:10px;padding:12px 14px;font:inherit;margin:6px 0}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+label{font-size:.9rem;color:var(--mute)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+button{font:700 1rem var(--body);cursor:pointer;border:0;border-radius:10px;padding:12px 16px;color:#fff;background:linear-gradient(var(--blood2),var(--blood));transition:transform .15s,filter .15s;width:100%;margin-top:8px}
+button:hover{filter:brightness(1.12)}button:active{transform:scale(.98)}
+button.ghost{background:transparent;border:1px solid #5a4a50;color:var(--paper)}
+button:disabled{opacity:.4;cursor:default}
+.err{color:var(--bad);min-height:1.4em;text-align:center;font-size:.9rem}
+.code{font:700 2.6rem var(--disp);letter-spacing:.35em;text-align:center;color:var(--brass);padding:6px 0;direction:ltr;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.pl{display:flex;align-items:center;justify-content:space-between;gap:6px;background:#150f12;border:1px solid #3a2e34;border-radius:10px;padding:10px 12px;font:inherit;color:var(--paper);margin:0;text-align:right;width:100%}
+.pl.dead{opacity:.5;text-decoration:line-through;background:#0f0b0d}
+.pl.sel{border-color:var(--brass);box-shadow:0 0 0 2px rgba(201,164,92,.35) inset;background:#241a1e}
+.tag{font-size:.75rem;color:var(--brass);white-space:nowrap}.tag.m{color:var(--blood2)}
+.role{text-align:center;padding:28px 10px;border:1px dashed var(--brass);border-radius:14px;margin:12px 0;animation:flip .6s ease both}
+@keyframes flip{from{transform:rotateY(90deg);opacity:0}}
+.role .big{font-size:3.4rem;line-height:1.2}.role .nm{font:700 2rem var(--disp);color:var(--brass)}
+.timer{float:left;font:700 1.1rem var(--disp);color:var(--blood2);direction:ltr}
+.box{border-radius:10px;padding:12px;margin:10px 0;background:#150f12;border-right:4px solid var(--brass)}
+.box.good{border-color:var(--ok)}.box.bad{border-color:var(--bad)}
+.verdict{font:700 1.3rem var(--disp);text-align:center;padding:14px}
+.verdict.ok{color:var(--ok)}.verdict.bad{color:var(--bad)}
+.sleep{text-align:center;padding:30px 0;color:var(--mute)}
+.moon{font-size:3rem;animation:glow 3s ease-in-out infinite alternate}
+@keyframes glow{to{text-shadow:0 0 25px var(--brass);transform:scale(1.06)}}
+#chat{margin-top:6px}
+#msgs{height:220px;overflow-y:auto;background:#0f0b0d;border-radius:10px;padding:10px;font-size:.95rem}
+.m{margin:4px 0;word-break:break-word}.m b{color:var(--brass)}.m.s{color:var(--mute);text-align:center;font-size:.85rem}
+#chat .row{margin-top:6px}#chat button{width:90px;margin:6px 0 0}
+.tl{margin-top:10px;font-size:.9rem;color:var(--mute)}
+@media (prefers-reduced-motion:reduce){*,body::before,body::after{animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <h1>المافيا</h1>
+  <div class="sub" id="sub">من بينكم قاتل… اكتشفوه قبل فوات الأوان</div>
+  <div id="main"></div>
+  <div id="chat" class="card" style="display:none">
+    <h2>الدردشة</h2>
+    <div id="msgs"></div>
+    <div class="row"><input id="ci" maxlength="300" placeholder="اكتب رسالة…" autocomplete="off"><button id="cs">إرسال</button></div>
+  </div>
+</div>
+<script>
+const R = {
+  mafia: { n: 'المافيا', e: '🔪', d: 'كل ليلة تختارون ضحية لإقصائها. أخفوا هويتكم في النهار.' },
+  detective: { n: 'المحقق', e: '🕵️', d: 'كل ليلة تتحقق من لاعب: أخضر ✓ إن كان من المافيا، أحمر ✗ إن لم يكن.' },
+  doctor: { n: 'الدكتور', e: '💉', d: 'كل ليلة تحمي لاعباً (حتى نفسك) من الإقصاء.' },
+  citizen: { n: 'مواطن', e: '🏙️', d: 'ليس لديك قدرة خاصة. ناقش وصوّت لاكتشاف المافيا.' }
+};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+let ses = JSON.parse(localStorage.getItem('mafia') || 'null'), S = null, es = null, sel = null, shown = false, key = '', msgCount = -1, homeErr = '';
+
+async function api(b) {
+  try {
+    const r = await fetch('/api', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...b, code: b.code || (ses && ses.code), pid: ses && ses.pid }) });
+    return await r.json();
+  } catch { return { error: 'تعذر الاتصال بالخادم' }; }
+}
+function connect() {
+  if (es) es.close();
+  es = new EventSource(`/events?code=${ses.code}&pid=${ses.pid}`);
+  es.onmessage = e => { S = JSON.parse(e.data); render(); };
+  es.onerror = () => { if (es.readyState === 2) leaveLocal('انتهت الجلسة أو أُغلقت الغرفة'); };
+}
+function leaveLocal(msg) {
+  if (es) es.close(); localStorage.removeItem('mafia'); ses = null; S = null; homeErr = msg || ''; key = ''; render();
+}
+async function act(type, extra) {
+  const r = await api({ type, ...extra });
+  if (r.error) { const e = $('err'); if (e) e.textContent = r.error; }
+}
+function timer() { return S && S.deadline ? `<span class="timer" id="tm">${Math.max(0, Math.ceil((S.deadline - Date.now()) / 1000))}</span>` : ''; }
+setInterval(() => { const t = $('tm'); if (t && S) t.textContent = Math.max(0, Math.ceil((S.deadline - Date.now()) / 1000)); }, 500);
+
+function players(onclick, opts = {}) {
+  return `<div class="grid">${S.players.map(p => {
+    const can = onclick && p.alive && !(opts.not && opts.not(p));
+    const tag = p.role && (!p.alive || S.phase === 'over' || p.id === S.me.id || p.role === 'mafia') ? `<span class="tag ${p.role === 'mafia' ? 'm' : ''}">${R[p.role].e} ${R[p.role].n}</span>` : (p.host ? '<span class="tag">👑</span>' : '');
+    return `<button class="pl ${p.alive ? '' : 'dead'} ${sel === p.id ? 'sel' : ''}" ${can ? `data-pick="${p.id}"` : 'disabled style="opacity:' + (p.alive ? '.7' : '.5') + '"'}>${esc(p.name)}${p.id === S.me.id ? ' (أنت)' : ''} ${tag}</button>`;
+  }).join('')}</div>`;
+}
+function picker(type, label, opts = {}) {
+  return players(true, opts) + `<button id="go" ${sel ? '' : 'disabled'}>${label}</button><div class="err" id="err"></div>`;
+}
+function bindPick(type) {
+  document.querySelectorAll('[data-pick]').forEach(b => b.onclick = () => { sel = b.dataset.pick; render(true); });
+  const g = $('go'); if (g) g.onclick = () => act(type, { target: sel });
+  const sk = $('skip'); if (sk) sk.onclick = () => act('vote', { target: 'skip' });
+}
+function views() {
+  const m = S.me, ph = S.phase, name = id => esc((S.players.find(p => p.id === id) || {}).name || '');
+  if (ph === 'lobby') return `
+    <div class="card"><h2>غرفة الانتظار</h2><div class="sub" style="margin:0">شارك الكود مع أصدقائك (اضغط لنسخه)</div>
+    <div class="code" id="cc">${S.code}</div>
+    <div class="tl" style="text-align:center">حتى ${S.max} لاعبين · ${S.mafia} من المافيا</div>
+    ${players()}<div class="tl">${S.players.length} / ${S.max} لاعب</div></div>
+    ${S.isHost ? `<button id="st" ${S.players.length < 4 ? 'disabled' : ''}>${S.players.length < 4 ? 'تحتاج 4 لاعبين على الأقل' : 'ابدأ اللعبة'}</button>` : '<div class="sub">بانتظار المضيف ليبدأ اللعبة…</div>'}
+    <button class="ghost" id="lv">مغادرة</button><div class="err" id="err"></div>`;
+  if (ph === 'reveal') {
+    const done = S.players.filter(p => p.seen).length;
+    if (m.seen) return `<div class="card sleep"><div class="moon">🎭</div>بانتظار بقية اللاعبين… (${done}/${S.players.length})</div>`;
+    const r = R[m.role], mates = S.players.filter(p => p.role === 'mafia' && p.id !== m.id).map(p => esc(p.name));
+    return `<div class="card"><h2>دورك السرّي ${timer()}</h2><div class="sub" style="margin:0">تأكد أن أحداً لا ينظر إلى شاشتك</div>
+    ${shown ? `<div class="role"><div class="big">${r.e}</div><div class="nm">${r.n}</div><p>${r.d}</p>${m.role === 'mafia' && mates.length ? `<p style="color:var(--blood2)">شركاؤك: ${mates.join('، ')}</p>` : ''}</div><button id="done">تم</button>` : `<button id="show" style="margin-top:20px">اضغط لكشف دورك</button>`}</div>`;
+  }
+  if (ph === 'night') {
+    const head = `<div class="card"><h2>الليل ${S.round} ${timer()}</h2>`;
+    if (!m.alive) return head + `<div class="sleep"><div class="moon">👻</div>أنت خارج اللعبة. شاهد بصمت…</div></div>`;
+    if (m.role === 'citizen') return head + `<div class="sleep"><div class="moon">🌙</div>المدينة نائمة… أغمض عينيك.</div></div>`;
+    const r = R[m.role], acted = m.act;
+    const label = { mafia: 'اختر ضحية', detective: 'تحقق من اللاعب', doctor: 'احمِ اللاعب' }[m.role];
+    let past = '';
+    if (m.role === 'detective' && m.checks.length) past = m.checks.map(c => `<div class="box ${c.mafia ? 'good' : 'bad'}">${c.mafia ? '✓' : '✗'} ${esc(c.name)}: ${c.mafia ? 'من المافيا' : 'ليس من المافيا'}</div>`).join('');
+    if (acted) return head + `<div class="sleep"><div class="moon">${r.e}</div>اخترت: <b>${name(acted)}</b><br>بانتظار الآخرين…</div>${past}</div>`;
+    return head + `<p>${r.e} <b>${r.n}</b> — ${label}</p>${picker('night', 'تأكيد', { not: p => (m.role === 'mafia' && p.role === 'mafia') || (m.role === 'detective' && p.id === m.id) })}${past}</div>`;
+  }
+  if (ph === 'day' || ph === 'vote') {
+    const an = S.announce, lines = an ? (an.kind === 'kill' ? `<div class="box bad">☠️ قُتل <b>${esc(an.name)}</b> في الليل — كان ${R[an.role].n}.</div>` : `<div class="box good">${an.saved ? '💉 حاولت المافيا القتل لكن الدكتور أنقذ الضحية!' : '🌅 مرّت الليلة بسلام.'}</div>`) : '';
+    const chk = m.role === 'detective' && m.checks.length ? m.checks.map(c => `<div class="box ${c.mafia ? 'good' : 'bad'}">🕵️ ${c.mafia ? '✓' : '✗'} ${esc(c.name)}: ${c.mafia ? 'من المافيا' : 'ليس من المافيا'}</div>`).join('') : '';
+    if (ph === 'day') return `<div class="card"><h2>النهار ${S.round} — التحقيق ${timer()}</h2>${lines}${chk}${players()}
+      ${m.alive ? `<button id="rd" class="${m.ready ? 'ghost' : ''}">${m.ready ? 'تراجع عن الجاهزية' : 'جاهز للتصويت'}</button>` : '<div class="tl">أنت خارج اللعبة، تشاهد فقط.</div>'}</div>`;
+    if (!m.alive) return `<div class="card"><h2>التصويت ${timer()}</h2>${players()}<div class="tl">أنت خارج اللعبة ولا يمكنك التصويت.</div></div>`;
+    if (m.vote) return `<div class="card"><h2>التصويت ${timer()}</h2><div class="sleep">صوّتَّ لـ <b>${m.vote === 'skip' ? 'الامتناع' : name(m.vote)}</b><br>بانتظار الباقين…</div></div>`;
+    return `<div class="card"><h2>من هو المافيا؟ ${timer()}</h2>${picker('vote', 'تأكيد التصويت')}<button class="ghost" id="skip">امتناع عن التصويت</button></div>`;
+  }
+  if (ph === 'result' || ph === 'over') {
+    const r = S.result;
+    let res = '';
+    if (r) res = r.none ? `<div class="box">⚖️ لم يُقصَ أحد (تعادل أو امتناع).</div>` : `<div class="verdict ${r.innocent ? 'bad' : 'ok'}">${esc(r.name)} ${r.innocent ? 'كان بريئاً!' : 'كان من المافيا!'}<br><small>دوره: ${R[r.role].e} ${R[r.role].n}</small></div>`;
+    if (r) res += `<div class="tl">النتيجة: ${r.tally.map(t => `${esc(t.name)} (${t.n})`).join(' · ')}</div>`;
+    if (ph === 'result') return `<div class="card"><h2>نتيجة التصويت</h2>${res}<div class="sleep">يحل الليل بعد قليل… ${timer()}</div></div>`;
+    return `<div class="card"><h2>${S.winner === 'citizens' ? '🏙️ فاز المواطنون!' : '🔪 فازت المافيا!'}</h2>${res}<div class="tl">كل الأدوار:</div>${players()}</div>
+      ${S.isHost ? '<button id="ag">لعبة جديدة</button>' : '<div class="sub">بانتظار المضيف لبدء لعبة جديدة…</div>'}<button class="ghost" id="lo">خروج</button><div class="err" id="err"></div>`;
+  }
+  return '';
+}
+function home() {
+  return `<div class="card"><h2>اسمك</h2><input id="nm" maxlength="16" placeholder="اكتب اسمك" value="${esc(localStorage.getItem('mname') || '')}"></div>
+  <div class="card"><h2>إنشاء غرفة</h2>
+    <div class="row"><div><label>عدد اللاعبين</label><select id="mx">${[4,5,6,7,8,9,10,11,12].map(n => `<option ${n === 6 ? 'selected' : ''}>${n}</option>`).join('')}</select></div>
+    <div><label>عدد المافيا</label><select id="mf"></select></div></div>
+    <button id="cr">إنشاء الغرفة</button></div>
+  <div class="card"><h2>دخول غرفة</h2><input id="jc" maxlength="5" placeholder="كود الغرفة" style="text-align:center;letter-spacing:.3em;direction:ltr;text-transform:uppercase"><button id="jn" class="ghost">دخول</button></div>
+  <div class="err" id="err">${esc(homeErr)}</div>`;
+}
+function bindHome() {
+  const fill = () => { const m = Math.floor(($('mx').value - 1) / 2); $('mf').innerHTML = Array.from({ length: m }, (_, i) => `<option ${i + 1 === (m > 1 ? 2 : 1) && m > 2 ? 'selected' : ''}>${i + 1}</option>`).join(''); };
+  $('mx').onchange = fill; fill();
+  const enter = r => { if (r.error) { $('err').textContent = r.error; return; } ses = { code: r.code, pid: r.pid }; localStorage.setItem('mafia', JSON.stringify(ses)); localStorage.setItem('mname', $('nm').value.trim()); connect(); };
+  $('cr').onclick = async () => enter(await api({ type: 'create', name: $('nm').value, max: $('mx').value, mafia: $('mf').value }));
+  $('jn').onclick = async () => enter(await api({ type: 'join', name: $('nm').value, code: $('jc').value.trim() }));
+}
+function render(keepScroll) {
+  const main = $('main'), chat = $('chat');
+  if (!ses || !S) { chat.style.display = 'none'; if (key !== 'home') { key = 'home'; main.innerHTML = home(); bindHome(); } return; }
+  const k = S.phase + S.round + (S.me.act || '') + (S.me.vote || '') + S.me.seen + S.me.alive + S.players.length + S.players.filter(p => p.seen).length + S.me.ready + (S.result ? 1 : 0) + S.players.map(p => p.alive ? 1 : 0).join('');
+  if (k !== key + '' && !keepScroll) { sel = null; if (S.phase !== 'reveal') shown = false; }
+  key = k;
+  main.innerHTML = views(); bind();
+  const showChat = ['lobby', 'day', 'vote', 'result', 'over'].includes(S.phase);
+  chat.style.display = showChat ? '' : 'none';
+  const can = S.me.alive || ['lobby', 'over'].includes(S.phase);
+  $('ci').disabled = $('cs').disabled = !can; $('ci').placeholder = can ? 'اكتب رسالة…' : 'الأموات لا يتحدثون';
+  if (S.chat.length !== msgCount) {
+    msgCount = S.chat.length; const box = $('msgs');
+    box.innerHTML = S.chat.map(c => c.sys ? `<div class="m s">${esc(c.text)}</div>` : `<div class="m"><b>${esc(c.name)}:</b> ${esc(c.text)}</div>`).join('');
+    box.scrollTop = box.scrollHeight;
+  }
+}
+function bind() {
+  const on = (id, f) => { const e = $(id); if (e) e.onclick = f; };
+  const ph = S.phase;
+  on('st', () => act('start')); on('lv', async () => { await api({ type: 'leave' }); leaveLocal(); });
+  on('lo', () => leaveLocal()); on('ag', () => act('again')); on('rd', () => act('ready'));
+  on('show', () => { shown = true; render(true); });
+  on('done', () => { shown = false; act('seen'); });
+  on('cc', () => { navigator.clipboard && navigator.clipboard.writeText(S.code); const e = $('cc'); e.style.opacity = .5; setTimeout(() => e.style.opacity = 1, 300); });
+  bindPick(ph === 'night' ? 'night' : 'vote');
+}
+async function send() { const i = $('ci'), t = i.value.trim(); if (!t) return; i.value = ''; act('chat', { text: t }); }
+$('cs').onclick = send; $('ci').onkeydown = e => { if (e.key === 'Enter') send(); };
+if (ses) connect(); else render();
+</script>
+</body>
+</html>
